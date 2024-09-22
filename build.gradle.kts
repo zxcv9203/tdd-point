@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
     id("jacoco")
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
 }
 
 allprojects {
@@ -14,7 +15,11 @@ allprojects {
 
 dependencyManagement {
     imports {
-        mavenBom(libs.spring.cloud.dependencies.get().toString())
+        mavenBom(
+            libs.spring.cloud.dependencies
+                .get()
+                .toString(),
+        )
     }
 }
 
