@@ -5,6 +5,7 @@ import io.hhplus.tdd.common.fake.NoLockManager
 import io.hhplus.tdd.point.domain.PointPolicy
 import io.hhplus.tdd.point.fake.FakeUserPointRepository
 import io.hhplus.tdd.point.infrastructure.web.request.PointChargeRequest
+import io.hhplus.tdd.point.infrastructure.web.request.PointUseRequest
 import io.hhplus.tdd.point.stub.UserPointStub
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -68,6 +69,33 @@ class UserPointServiceTest {
             val got = userPointService.getById(userId).point
 
             assertThat(got).isEqualTo(want)
+        }
+    }
+
+    @Nested
+    @DisplayName("포인트 사용")
+    inner class Use {
+        @Test
+        @DisplayName("사용하려는 포인트보다 보유한 포인트가 많은 경우 포인트 사용에 성공합니다.")
+        fun success() {
+            val userId = 1L
+            val request = PointUseRequest(50L)
+            val want = 50L
+
+            val got = userPointService.use(userId, request).point
+
+            assertThat(got).isEqualTo(want)
+        }
+
+        @Test
+        @DisplayName("사용하려는 포인트가 보유한 포인트보다 많은 경우 포인트 사용에 실패합니다.")
+        fun fail() {
+            val userId = 1L
+            val request = PointUseRequest(101L)
+
+            assertThatThrownBy { userPointService.use(userId, request) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+                .hasMessage(ErrorMessage.INSUFFICIENT_POINT.message)
         }
     }
 }

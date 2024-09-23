@@ -4,6 +4,7 @@ import io.hhplus.tdd.common.lock.LockManager
 import io.hhplus.tdd.point.domain.UserPoint
 import io.hhplus.tdd.point.domain.UserPointRepository
 import io.hhplus.tdd.point.infrastructure.web.request.PointChargeRequest
+import io.hhplus.tdd.point.infrastructure.web.request.PointUseRequest
 import org.springframework.stereotype.Service
 
 @Service
@@ -23,4 +24,15 @@ class UserPointService(
         }
 
     fun getById(id: Long): UserPoint = userPointRepository.getByUserId(id)
+
+    fun use(
+        id: Long,
+        request: PointUseRequest,
+    ): UserPoint =
+        lockManager.withLock(id) {
+            userPointRepository
+                .getByUserId(id)
+                .apply { use(request.amount) }
+                .also { userPointRepository.save(it) }
+        }
 }
