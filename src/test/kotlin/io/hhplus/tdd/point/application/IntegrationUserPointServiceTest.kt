@@ -59,4 +59,32 @@ class IntegrationUserPointServiceTest(
             assertThat(got).isEqualTo(want)
         }
     }
+
+    @Nested
+    @DisplayName("포인트 충전, 사용이 동시에 발생하는 경우")
+    inner class ChargeAndUse {
+        private val id = 3L
+
+        @BeforeEach
+        fun setUp() {
+            val chargeRequest = PointChargeRequest(10000L)
+            userPointService.charge(id, chargeRequest)
+        }
+
+        @Test
+        @DisplayName("동시에 여러 쓰레드가 접근하는 경우 충전과 사용이 정상적으로 처리된다.")
+        fun success() {
+            val chargeRequest = PointChargeRequest(100L)
+            val useRequest = PointUseRequest(100L)
+            val want = 9900L
+
+            ConcurrentTestHelper.executeConcurrentTasks(99) {
+                userPointService.charge(id, chargeRequest)
+                userPointService.use(id, useRequest)
+            }
+            val got = userPointService.use(id, useRequest).point
+
+            assertThat(got).isEqualTo(want)
+        }
+    }
 }
