@@ -11,12 +11,12 @@ class PointService(
     private val userPointService: UserPointService,
 ) {
     fun charge(
-        userId: Long,
+        id: Long,
         request: PointChargeRequest,
     ): UserPoint =
         userPointService
-            .charge(userId, request)
-            .apply { pointHistoryService.save(PointHistory.createByCharge(userId, request.amount)) }
+            .charge(id, request)
+            .apply { pointHistoryService.save(PointHistory.createByCharge(id, request.amount)) }
 
     fun getById(id: Long): UserPoint = userPointService.getById(id)
 }

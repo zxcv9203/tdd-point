@@ -12,12 +12,12 @@ class UserPointService(
     private val userPointRepository: UserPointRepository,
 ) {
     fun charge(
-        userId: Long,
+        id: Long,
         request: PointChargeRequest,
     ): UserPoint =
-        lockManager.withLock(userId) {
+        lockManager.withLock(id) {
             userPointRepository
-                .getByUserId(userId)
+                .getByUserId(id)
                 .apply { charge(request.amount) }
                 .also { userPointRepository.save(it) }
         }
