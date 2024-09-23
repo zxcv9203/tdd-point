@@ -1,5 +1,6 @@
 package io.hhplus.tdd.point.infrastructure.web.config
 
+import io.hhplus.tdd.common.error.ErrorMessage
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -15,12 +16,17 @@ data class ErrorResponse(
 
 @RestControllerAdvice
 class ApiControllerAdvice : ResponseEntityExceptionHandler() {
-    private val logger: Logger = LoggerFactory.getLogger(javaClass)
+    private val log: Logger = LoggerFactory.getLogger(javaClass)
 
     @ExceptionHandler(Exception::class)
-    fun handleException(e: Exception): ResponseEntity<ErrorResponse> =
-        ResponseEntity(
-            ErrorResponse("500", "에러가 발생했습니다."),
+    fun handleException(e: Exception): ResponseEntity<ErrorResponse> {
+        log.error(ErrorMessage.INTERNAL_SERVER_ERROR.message, e)
+        return ResponseEntity(
+            ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value().toString(),
+                ErrorMessage.INTERNAL_SERVER_ERROR.message,
+            ),
             HttpStatus.INTERNAL_SERVER_ERROR,
         )
+    }
 }
