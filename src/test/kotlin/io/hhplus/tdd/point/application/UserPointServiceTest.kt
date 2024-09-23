@@ -22,10 +22,11 @@ class UserPointServiceTest {
             userPointRepository = userPointRepository,
             lockManager = lockManager,
         )
+    private val userPoint = UserPointStub.create(100L)
 
     @BeforeEach
     fun setUp() {
-        userPointRepository.save(UserPointStub.create(100L))
+        userPointRepository.save(userPoint)
     }
 
     @Nested
@@ -52,6 +53,21 @@ class UserPointServiceTest {
             assertThatThrownBy { userPointService.charge(userId, request) }
                 .isInstanceOf(IllegalArgumentException::class.java)
                 .hasMessage(ErrorMessage.MAX_POINT_EXCEEDED.message)
+        }
+    }
+
+    @Nested
+    @DisplayName("포인트 조회")
+    inner class GetById {
+        @Test
+        @DisplayName("사용자 ID로 포인트를 조회합니다.")
+        fun success() {
+            val userId = 1L
+            val want = userPoint.point
+
+            val got = userPointService.getById(userId).point
+
+            assertThat(got).isEqualTo(want)
         }
     }
 }

@@ -17,4 +17,6 @@ class PointService(
         userPointService
             .charge(userId, request)
             .apply { pointHistoryService.save(PointHistory.createByCharge(userId, request.amount)) }
+
+    fun getById(id: Long): UserPoint = userPointService.getById(id)
 }

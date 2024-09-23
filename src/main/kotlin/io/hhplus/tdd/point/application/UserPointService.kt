@@ -21,4 +21,6 @@ class UserPointService(
                 .apply { charge(request.amount) }
                 .also { userPointRepository.save(it) }
         }
+
+    fun getById(id: Long): UserPoint = userPointRepository.getByUserId(id)
 }
