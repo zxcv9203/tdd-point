@@ -4,7 +4,7 @@ import io.hhplus.tdd.common.lock.LockManager
 
 class NoLockManager : LockManager {
     override fun <T> withLock(
-        userId: Long,
+        id: Long,
         block: () -> T,
     ): T = block()
 }

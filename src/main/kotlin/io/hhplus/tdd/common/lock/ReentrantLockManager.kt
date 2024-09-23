@@ -9,10 +9,10 @@ class ReentrantLockManager : LockManager {
     private val locks = ConcurrentHashMap<Long, ReentrantLock>()
 
     override fun <T> withLock(
-        userId: Long,
+        id: Long,
         block: () -> T,
     ): T {
-        val lock = locks.computeIfAbsent(userId) { ReentrantLock() }
+        val lock = locks.computeIfAbsent(id) { ReentrantLock() }
         lock.lock()
         return try {
             block()
