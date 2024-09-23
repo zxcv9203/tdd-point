@@ -9,4 +9,6 @@ class PointHistoryService(
     private val pointHistoryRepository: PointHistoryRepository,
 ) {
     fun save(history: PointHistory): PointHistory = pointHistoryRepository.save(history)
+
+    fun findHistoriesById(id: Long): List<PointHistory> = pointHistoryRepository.findAllByUserId(id)
 }

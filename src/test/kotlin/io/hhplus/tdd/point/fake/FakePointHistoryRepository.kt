@@ -10,4 +10,6 @@ class FakePointHistoryRepository : PointHistoryRepository {
         table.add(history)
         return history
     }
+
+    override fun findAllByUserId(id: Long): List<PointHistory> = table.filter { it.userId == id }
 }

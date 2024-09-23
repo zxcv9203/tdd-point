@@ -28,4 +28,6 @@ class PointService(
         userPointService
             .use(id, request)
             .apply { pointHistoryService.save(PointHistory.createByUse(id, request.amount)) }
+
+    fun findHistoriesById(id: Long): List<PointHistory> = pointHistoryService.findHistoriesById(id)
 }
