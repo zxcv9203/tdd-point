@@ -19,7 +19,7 @@ class PointUseRequestTest {
         fun shouldFailWhenPointIsZeroOrLess(amount: Long) {
             assertThatThrownBy { PointUseRequest(amount) }
                 .isInstanceOf(IllegalArgumentException::class.java)
-                .hasMessage(ErrorMessage.INVALID_POINT_AMOUNT.message)
+                .hasMessage(ErrorMessage.POINT_AMOUNT_BELOW_MINIMUM.message)
         }
 
         @ParameterizedTest(name = "포인트 사용 요청이 {0}인 경우 생성에 실패합니다.")

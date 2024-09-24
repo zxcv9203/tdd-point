@@ -7,7 +7,7 @@ data class PointChargeRequest(
     val amount: Long,
 ) {
     init {
-        require(amount > PointPolicy.MIN_POINT) { ErrorMessage.INVALID_POINT_AMOUNT.message }
+        require(amount > PointPolicy.MIN_POINT) { ErrorMessage.POINT_AMOUNT_BELOW_MINIMUM.message }
         require(amount < PointPolicy.MAX_POINT) { ErrorMessage.MAX_POINT_EXCEEDED.message }
     }
 }
