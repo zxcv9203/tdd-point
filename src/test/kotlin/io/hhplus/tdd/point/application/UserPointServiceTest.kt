@@ -1,7 +1,6 @@
 package io.hhplus.tdd.point.application
 
 import io.hhplus.tdd.common.error.ErrorMessage
-import io.hhplus.tdd.common.fake.NoLockManager
 import io.hhplus.tdd.point.domain.PointPolicy
 import io.hhplus.tdd.point.fake.FakeUserPointRepository
 import io.hhplus.tdd.point.infrastructure.web.request.PointChargeRequest
@@ -17,11 +16,9 @@ import org.junit.jupiter.api.Test
 @DisplayName("UserPointService 테스트")
 class UserPointServiceTest {
     private val userPointRepository = FakeUserPointRepository()
-    private val lockManager = NoLockManager()
     private val userPointService =
         UserPointService(
             userPointRepository = userPointRepository,
-            lockManager = lockManager,
         )
     private val userPoint = UserPointStub.create(100L)
 
