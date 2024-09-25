@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-@DisplayName("UserPointService 통합 테스트")
-class IntegrationUserPointServiceTest(
+@DisplayName("PointService 통합 테스트")
+class IntegrationPointServiceTest(
     @Autowired
-    private val userPointService: UserPointService,
+    private val pointService: PointService,
 ) {
     @Nested
     @DisplayName("포인트 충전")
@@ -27,8 +27,8 @@ class IntegrationUserPointServiceTest(
             val request = PointChargeRequest(100L)
             val want = 10000L
 
-            ConcurrentTestHelper.executeConcurrentTasks(99) { userPointService.charge(id, request) }
-            val got = userPointService.charge(id, request).point
+            ConcurrentTestHelper.executeConcurrentTasks(99) { pointService.charge(id, request) }
+            val got = pointService.charge(id, request).point
 
             assertThat(got).isEqualTo(want)
         }
@@ -42,7 +42,7 @@ class IntegrationUserPointServiceTest(
         @BeforeEach
         fun setUp() {
             val chargeRequest = PointChargeRequest(10000L)
-            userPointService.charge(id, chargeRequest)
+            pointService.charge(id, chargeRequest)
         }
 
         @Test
@@ -52,9 +52,9 @@ class IntegrationUserPointServiceTest(
             val want = 0L
 
             ConcurrentTestHelper.executeConcurrentTasks(99) {
-                userPointService.use(id, useRequest)
+                pointService.use(id, useRequest)
             }
-            val got = userPointService.use(id, useRequest).point
+            val got = pointService.use(id, useRequest).point
 
             assertThat(got).isEqualTo(want)
         }
@@ -68,7 +68,7 @@ class IntegrationUserPointServiceTest(
         @BeforeEach
         fun setUp() {
             val chargeRequest = PointChargeRequest(10000L)
-            userPointService.charge(id, chargeRequest)
+            pointService.charge(id, chargeRequest)
         }
 
         @Test
@@ -79,10 +79,10 @@ class IntegrationUserPointServiceTest(
             val want = 9900L
 
             ConcurrentTestHelper.executeConcurrentTasks(99) {
-                userPointService.charge(id, chargeRequest)
-                userPointService.use(id, useRequest)
+                pointService.charge(id, chargeRequest)
+                pointService.use(id, useRequest)
             }
-            val got = userPointService.use(id, useRequest).point
+            val got = pointService.use(id, useRequest).point
 
             assertThat(got).isEqualTo(want)
         }
