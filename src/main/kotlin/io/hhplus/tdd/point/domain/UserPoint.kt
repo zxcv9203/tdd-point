@@ -11,4 +11,9 @@ data class UserPoint(
         require(this.point + amount < PointPolicy.MAX_POINT) { ErrorMessage.MAX_POINT_EXCEEDED.message }
         this.point += amount
     }
+
+    fun use(amount: Long) {
+        require(this.point - amount >= PointPolicy.USE_MIN_POINT) { ErrorMessage.INSUFFICIENT_POINT.message }
+        this.point -= amount
+    }
 }

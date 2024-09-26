@@ -4,6 +4,7 @@ import io.hhplus.tdd.point.application.PointService
 import io.hhplus.tdd.point.domain.PointHistory
 import io.hhplus.tdd.point.domain.UserPoint
 import io.hhplus.tdd.point.infrastructure.web.request.PointChargeRequest
+import io.hhplus.tdd.point.infrastructure.web.request.PointUseRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
@@ -42,12 +43,9 @@ class PointController(
         @RequestBody request: PointChargeRequest,
     ): UserPoint = pointService.charge(id, request)
 
-    /**
-     * TODO - 특정 유저의 포인트를 사용하는 기능을 작성해주세요.
-     */
     @PatchMapping("{id}/use")
     fun use(
         @PathVariable id: Long,
-        @RequestBody amount: Long,
-    ): UserPoint = UserPoint(0, 0, 0)
+        @RequestBody request: PointUseRequest,
+    ): UserPoint = pointService.use(id, request)
 }

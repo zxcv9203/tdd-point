@@ -18,6 +18,17 @@ data class PointHistory(
                 type = TransactionType.CHARGE,
                 timeMillis = System.currentTimeMillis(),
             )
+
+        fun createByUse(
+            id: Long,
+            amount: Long,
+        ): PointHistory =
+            PointHistory(
+                userId = id,
+                amount = amount,
+                type = TransactionType.USE,
+                timeMillis = System.currentTimeMillis(),
+            )
     }
 }
 
