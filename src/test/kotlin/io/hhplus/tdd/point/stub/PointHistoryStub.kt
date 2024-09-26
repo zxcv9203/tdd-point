@@ -16,4 +16,17 @@ object PointHistoryStub {
             type = TransactionType.CHARGE,
             timeMillis = 0,
         )
+
+    fun createByUse(
+        amount: Long,
+        userId: Long,
+        id: Long = 1,
+    ): PointHistory =
+        PointHistory(
+            id = id,
+            userId = userId,
+            amount = amount,
+            type = TransactionType.USE,
+            timeMillis = 0,
+        )
 }

@@ -2,6 +2,7 @@ package io.hhplus.tdd.point.application
 
 import io.hhplus.tdd.point.infrastructure.web.request.PointChargeRequest
 import io.hhplus.tdd.point.infrastructure.web.request.PointUseRequest
+import io.hhplus.tdd.point.stub.PointHistoryStub
 import io.hhplus.tdd.point.stub.UserPointStub
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
@@ -73,6 +74,23 @@ class PointServiceTest {
             given(userPointService.getById(id)).willReturn(want)
 
             val got = pointService.getById(id)
+
+            assertThat(got).isEqualTo(want)
+        }
+    }
+
+    @Nested
+    @DisplayName("포인트 충전 / 사용 이력")
+    inner class FindHistoriesById {
+        @Test
+        @DisplayName("전달한 아이디의 포인트 충전 / 사용 이력을 조회합니다.")
+        fun success() {
+            val id = 1L
+            val want = listOf(PointHistoryStub.createByUse(1000L, id))
+
+            given(pointHistoryService.findHistoriesById(id)).willReturn(want)
+
+            val got = pointService.findHistoriesById(id)
 
             assertThat(got).isEqualTo(want)
         }

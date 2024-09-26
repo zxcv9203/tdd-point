@@ -16,4 +16,6 @@ class InMemoryPointHistoryRepository(
             transactionType = history.type,
             updateMillis = history.timeMillis,
         )
+
+    override fun findAllByUserId(id: Long): List<PointHistory> = pointHistoryTable.selectAllByUserId(id)
 }
