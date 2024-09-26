@@ -26,4 +26,6 @@ class PointService(
         userPointService
             .use(id, request)
             .also { pointHistoryService.save(PointHistory.createByUse(id, request.amount)) }
+
+    fun getById(id: Long): UserPoint = userPointService.getById(id)
 }

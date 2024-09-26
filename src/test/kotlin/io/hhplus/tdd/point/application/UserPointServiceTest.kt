@@ -53,4 +53,19 @@ class UserPointServiceTest {
             assertThat(got).isEqualTo(want)
         }
     }
+
+    @Nested
+    @DisplayName("포인트 조회")
+    inner class GetById {
+        @Test
+        @DisplayName("사용자 ID로 포인트를 조회합니다.")
+        fun success() {
+            val userId = 1L
+            val want = userPoint.point
+
+            val got = userPointService.getById(userId).point
+
+            assertThat(got).isEqualTo(want)
+        }
+    }
 }
