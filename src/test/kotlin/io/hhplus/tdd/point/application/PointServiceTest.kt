@@ -1,5 +1,7 @@
 package io.hhplus.tdd.point.application
 
+import io.hhplus.tdd.common.LockManager
+import io.hhplus.tdd.common.fake.NoLockManager
 import io.hhplus.tdd.point.infrastructure.web.request.PointChargeRequest
 import io.hhplus.tdd.point.infrastructure.web.request.PointUseRequest
 import io.hhplus.tdd.point.stub.PointHistoryStub
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Spy
 import org.mockito.junit.jupiter.MockitoExtension
 
 @ExtendWith(MockitoExtension::class)
@@ -25,6 +28,9 @@ class PointServiceTest {
 
     @Mock
     private lateinit var userPointService: UserPointService
+
+    @Spy
+    private val lockManager: LockManager = NoLockManager()
 
     @Nested
     @DisplayName("포인트 충전")
